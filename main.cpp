@@ -1,71 +1,42 @@
 #include <bits/stdc++.h>
+
 using namespace std;
-int n;
-int a[1000][1000];
-int p[100000];
-int thc[10000];
-void tong()
+struct socola
 {
-    int th[10000];
-    for (int i=1;i<=n;i++)
-        for(int j=1;j<=n;j++)
-        th[i] += a[i][j];
-    int tc[10000];
-    for (int j=1;j<=n;j++)
-        for(int i=1;i<=n;i++)
-        tc[i] += a[i][j];
-    for (int i=1;i<=n;i++)
-        thc[i] = th[i] +tc[i];
-}
-void process()
+    long long p,c;
+};
+bool cmp(socola a,socola b)
 {
-    int vt;
-    bool t[100000];
-    memset(p,-1,sizeof(p));
-    memset(t,true,sizeof(t));
-    for (int k=1;k<=n/2;k++)
-    {
-        int maxp=-99999;
-        for(int i=1;i<=n;i++)
-    {
-        if(t[i]==true)
-            if(thc[i]>maxp)
-        {
-            maxp=thc[i];
-            vt=i;
-        }
-        t[vt]=false;
-        p[vt]=1;
-        maxp =0;
-        if(t[i]==true)
-            if(thc[i]>maxp)
-            {
-                maxp=thc[i];
-                vt=i;
-            }
-        t[vt]=false;
-        p[vt]=0;
-    }
-    }
+    if(a.p<b.p)
+        return true;
+    else return false;
 }
 int main()
 {
-    freopen("Matrix.inp","r",stdin);
-    freopen("Matrix.out","w",stdout);
-    cin>>n;
-    for (int i=1;i<=n;i++)
-        for(int j=1;j<=n;j++)
-        cin>>a[i][j];
-    tong();
-    process();
-    int an=0,ha=0;
-    for (int i=1;i<=n;i++)
-        for(int j=1;j<=n;j++)
-        {
-            if(p[i]==1&&p[j]==1) an = an+ a[i][j];
-            if(p[i]==0&&p[j]==0) ha = ha+ a[i][j];
-        }
-    cout<<an<<endl;
-    cout<<ha;
+    //freopen("socola.inp","r",stdin);
+    //freopen("socola.out","w",stdout);
+    socola cow[100000];
+    long long n,b;
+    cin>>n>>b;
+    for(long long i=1;i<=n;i++)
+        cin>>cow[i].p>>cow[i].c;
+    sort(cow+1,cow+n+1,cmp);
+    long long t=0;
+    long long d=0;
+    long long id;
+    for(int i=1;i<=n;i++)
+    {
+        t=t+cow[i].p*cow[i].c;
+        d=d+cow[i].c;
+        id=i;
+        if(t>=b)
+            break;
+    }
+    while(t>b)
+    {
+        t=t-cow[id].p;
+        d--;
+    }
+    cout<<d;
     return 0;
 }
